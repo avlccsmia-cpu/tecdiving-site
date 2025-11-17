@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glu-Glu Diving - Consulta Técnica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a4d68 0%, #088395 50%, #05bfdb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .consultation-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0a4d68 0%, #088395 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo-placeholder {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-image {
+            max-width: 140px;
+            max-height: 140px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .content-area {
+            display: flex;
+            height: 500px;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 30px;
+            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+
+        .chat-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #0a4d68;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #088395;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0a4d68 0%, #088395 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(8, 131, 149, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-user {
+            text-align: right;
+        }
+
+        .message-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .message-user .message-bubble {
+            background: linear-gradient(135deg, #0a4d68 0%, #088395 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-bot .message-bubble {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #088395;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .status-message {
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            margin: 15px 30px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .status-message.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .content-area {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .form-section {
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .chat-section {
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="consultation-container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    
+                    <!-- Si tienes un logo, reemplaza el emoji con:-->
+                    <img src="glu-glu diving logo.png" alt="Glu-Glu Diving Logo" class="logo-image">
+                    
+                </div>
+            </div>
+            <h1>Glu-Glu Diving</h1>
+            <p>Consulta con Expertos en Buceo Técnico</p>
+        </div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <div class="content-area">
+            <div class="form-section">
+                <form id="consultation-form">
+                    <div class="form-group">
+                        <label for="name">Nombre Completo *</label>
+                        <input type="text" id="name" name="name" required placeholder="Ej: Juan Pérez">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="certification">Nivel de Certificación *</label>
+                        <select id="certification" name="certification" required>
+                            <option value="">Selecciona tu nivel</option>
+                            <option value="Open Water">Open Water</option>
+                            <option value="Advanced Open Water">Advanced Open Water</option>
+                            <option value="Rescue Diver">Rescue Diver</option>
+                            <option value="Divemaster">Divemaster</option>
+                            <option value="Instructor">Instructor</option>
+                            <option value="Technical Diver">Technical Diver</option>
+                            <option value="Trimix">Trimix</option>
+                            <option value="Cave Diver">Cave Diver</option>
+                            <option value="Rebreather">Rebreather</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question">Tu Consulta Técnica *</label>
+                        <textarea id="question" name="question" required placeholder="Describe tu consulta sobre buceo técnico, planificación de inmersiones, mezclas de gases, descompresión, equipamiento, etc."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button" id="submit-btn">Enviar Consulta</button>
+                </form>
+            </div>
+
+            <div class="chat-section">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Los mensajes se agregarán aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WEBHOOK_URL = 'https://avlai.app.n8n.cloud/webhook/d20cfd14-24ef-434e-87d1-1071f73b671c/chat';
+        const sessionId = 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+
+        const form = document.getElementById('consultation-form');
+        const chatMessages = document.getElementById('chat-messages');
+        const submitBtn = document.getElementById('submit-btn');
+        const statusMessage = document.getElementById('status-message');
+
+        function addChatMessage(text, isUser = false, userName = '') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'message-user' : 'message-bot'}`;
+            
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'message-label';
+            labelDiv.textContent = isUser ? userName : 'Experto Glu-Glu Diving';
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            bubbleDiv.innerHTML = text; // Cambiado a innerHTML para soportar formato
+            
+            messageDiv.appendChild(labelDiv);
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator active';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function showStatus(message, type = 'success') {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type} active`;
+            setTimeout(() => {
+                statusMessage.classList.remove('active');
+            }, 5000);
+        }
+
+        function setFormLoading(isLoading) {
+            submitBtn.disabled = isLoading;
+            submitBtn.textContent = isLoading ? 'Enviando...' : 'Enviar Consulta';
+            
+            // Solo deshabilitar el textarea de pregunta, no los otros campos
+            const questionField = document.getElementById('question');
+            questionField.disabled = isLoading;
+        }
+
+        async function sendToExpert(formData) {
+            try {
+                // Generar fecha actual en formato YYYY-MM-DD
+                const today = new Date();
+                const currentDate = today.getFullYear() + '-' + 
+                                  String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                                  String(today.getDate()).padStart(2, '0');
+
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'sendMessage',
+                        sessionId: sessionId,
+                        chatInput: formData.question,
+                        input: {
+                            customerName: formData.name,
+                            customerEmail: formData.email,
+                            certificationLevel: formData.certification,
+                            consultationDate: currentDate
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error del servidor: ${response.status}`);
+                }
+
+                // Manejar respuesta streaming
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    fullResponse += chunk;
+                }
+
+                // Intentar parsear como JSON, si falla devolver el texto completo
+                try {
+                    const data = JSON.parse(fullResponse);
+                    return data.output || data.response || data.text || data.message || fullResponse;
+                } catch {
+                    return fullResponse;
+                }
+
+            } catch (error) {
+                console.error('Error completo:', error);
+                throw error;
+            }
+        }
+
+        // Event listener del formulario
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                certification: document.getElementById('certification').value,
+                question: document.getElementById('question').value.trim()
+            };
+
+            if (!formData.question) {
+                showStatus('Por favor escribe tu consulta', 'error');
+                return;
+            }
+
+            // Agregar mensaje del usuario al chat
+            addChatMessage(formData.question, true, formData.name);
+            
+            // Limpiar el campo de pregunta
+            document.getElementById('question').value = '';
+            
+            // Mostrar indicador de escritura
+            setFormLoading(true);
+            showTypingIndicator();
+
+            try {
+                const response = await sendToExpert(formData);
+                hideTypingIndicator();
+                addChatMessage(response, false);
+                showStatus('Consulta enviada exitosamente', 'success');
+            } catch (error) {
+                hideTypingIndicator();
+                addChatMessage('Lo siento, hubo un error al procesar tu consulta. Por favor intenta nuevamente.', false);
+                showStatus('Error al enviar la consulta', 'error');
+                console.error('Error:', error);
+            } finally {
+                setFormLoading(false);
+            }
+        });
+
+        // Mensaje de bienvenida
+        window.addEventListener('load', () => {
+            addChatMessage('¡Hola! Soy tu experto en buceo técnico de Glu-Glu Diving. Completa el formulario y hazme tu consulta sobre planificación de inmersiones, mezclas de gases, descompresión o cualquier aspecto técnico del buceo. ¡Estoy aquí para ayudarte!', false);
+        });
+    </script>
+</body>
+</html>
