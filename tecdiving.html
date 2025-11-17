@@ -366,15 +366,6 @@
         const submitBtn = document.getElementById('submit-btn');
         const statusMessage = document.getElementById('status-message');
 
-      
-        // Crear o recuperar sessionId persistente
-        let sessionId = localStorage.getItem("tecdiving_session_id");
-        if (!sessionId) {
-              sessionId = crypto.randomUUID();
-              localStorage.setItem("tecdiving_session_id", sessionId);
-                        }
-        window.getSessionId = () => sessionId;
-
         function addChatMessage(text, isUser = false, userName = '') {
             const messageDiv = document.createElement('div');
             messageDiv.className = `chat-message ${isUser ? 'message-user' : 'message-bot'}`;
